@@ -1,0 +1,1 @@
+DOMAIN = "espws_clock"

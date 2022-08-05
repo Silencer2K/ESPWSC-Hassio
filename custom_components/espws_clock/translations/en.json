@@ -1,0 +1,15 @@
+{
+  "config": {
+    "abort": {},
+    "error": {
+      "invalid_host": "Invalid host name or IP address"
+    },
+    "step": {
+      "user": {
+        "data": {
+          "host": "Host name or IP address"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "domain": "espws_clock",
+  "name": "ESPWSClock",
+  "version": "0.1.4",
+  "documentation": "https://github.com/Silencer2K/ESPWSC-Hassio",
+  "issue_tracker": "https://github.com/Silencer2K/ESPWSC-Hassio/issues",
+  "dependencies": ["http"],
+  "codeowners": ["@Silencer2K"],
+  "requirements": ["httpx"],
+  "iot_class": "local_push",
+  "config_flow": true
+}

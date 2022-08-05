@@ -1,0 +1,6 @@
+{
+  "name": "ESPWSClock",
+  "render_readme": true,
+  "homeassistant": "2022.8.0",
+  "hacs": "1.26.2"
+}
