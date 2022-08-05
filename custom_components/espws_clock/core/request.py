@@ -92,12 +92,8 @@ class Request:
 
                         try:
                             async for event in events(resp):
-                                self._callback(
-                                    event.event,
-                                    json.loads(event.data)
-                                    if event.data is not None
-                                    else None,
-                                )
+                                self._callback(event.event, json.loads(event.data))
+
                         except httpx.ReadTimeout:
                             continue
 
@@ -139,6 +135,7 @@ class Request:
     async def async_request(self, method="status", post=None):
         try:
             data = await self._async_request(method=method, post=post)
+
         except (
             httpx.HTTPStatusError,
             httpx.ConnectError,
