@@ -33,27 +33,11 @@ class Effect(Enum):
 
 
 @attr.s()
-class Color:
-    rgb = attr.ib(default=RGB())
-    brightness = attr.ib(default=0)
-    effect = attr.ib(default=Effect.NONE)
-
-    def from_json(self, data):
-        assert isinstance(data, dict)
-
-        if "rgb" in data:
-            self.rgb.from_json(data["rgb"])
-        if "brightness" in data:
-            assert isinstance(data["brightness"], int)
-            self.brightness = data["brightness"]
-        if "effect" in data:
-            self.effect = Effect[data["effect"].upper()]
-
-
-@attr.s()
 class Light:
     state = attr.ib(default=False)
-    color = attr.ib(default=Color())
+    brightness = attr.ib(default=0)
+    color = attr.ib(default=RGB())
+    effect = attr.ib(default=Effect.NONE)
 
     def from_json(self, data):
         assert isinstance(data, dict)
@@ -61,8 +45,13 @@ class Light:
         if "state" in data:
             assert isinstance(data["state"], bool)
             self.state = data["state"]
+        if "brightness" in data:
+            assert isinstance(data["brightness"], int)
+            self.brightness = data["brightness"]
         if "color" in data:
             self.color.from_json(data["color"])
+        if "effect" in data:
+            self.effect = Effect[data["effect"].upper()]
 
 
 @attr.s()

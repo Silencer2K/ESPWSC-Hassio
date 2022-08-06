@@ -56,14 +56,14 @@ class ClockLight(LightEntity):
         if self._api.state is not None:
             self._attr_device_info["sw_version"] = self._api.state.info.version
 
-            self._attr_brightness = self._api.state.light.color.brightness
+            self._attr_brightness = self._api.state.light.brightness
             self._attr_rgb_color = [
-                self._api.state.light.color.rgb.red,
-                self._api.state.light.color.rgb.green,
-                self._api.state.light.color.rgb.blue,
+                self._api.state.light.color.red,
+                self._api.state.light.color.green,
+                self._api.state.light.color.blue,
             ]
 
-            self._attr_effect = self._api.state.light.color.effect.value
+            self._attr_effect = self._api.state.light.effect.value
 
     def _update_handler(self):
         self._update_attributes()
@@ -82,13 +82,13 @@ class ClockLight(LightEntity):
         return self.state == STATE_ON
 
     async def async_turn_on(self, **kwargs):
-        params = {"state": True, "color": {}}
+        params = {"state": True}
         if "brightness" in kwargs:
-            params["color"]["brightness"] = kwargs["brightness"]
+            params["brightness"] = kwargs["brightness"]
         if "rgb_color" in kwargs:
-            params["color"]["rgb"] = kwargs["rgb_color"]
+            params["color"] = kwargs["rgb_color"]
         if "effect" in kwargs:
-            params["color"]["effect"] = Effect(kwargs["effect"]).name.lower()
+            params["effect"] = Effect(kwargs["effect"]).name.lower()
 
         await self._api.async_update("light", params)
 
