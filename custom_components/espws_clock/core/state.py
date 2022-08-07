@@ -30,6 +30,7 @@ class RGB:
 
 class Effect(Enum):
     NONE = "None"
+    TWO_COLORS = "Two colors"
 
 
 @attr.s()
@@ -38,6 +39,8 @@ class Light:
     brightness = attr.ib(default=0)
     color = attr.ib(default=RGB())
     effect = attr.ib(default=Effect.NONE)
+    effect_color_1 = attr.ib(default=RGB())
+    effect_color_2 = attr.ib(default=RGB())
 
     def from_json(self, data):
         assert isinstance(data, dict)
@@ -52,6 +55,10 @@ class Light:
             self.color.from_json(data["color"])
         if "effect" in data:
             self.effect = Effect[data["effect"].upper()]
+        if "effect_color_1" in data:
+            self.effect_color_1.from_json(data["effect_color_1"])
+        if "effect_color_2" in data:
+            self.effect_color_2.from_json(data["effect_color_2"])
 
 
 @attr.s()

@@ -21,13 +21,19 @@ async def async_setup_entry(hass, entry, async_add_entities):
     unique_id = entry.entry_id
     name = entry.title
 
-    light = ClockLight(api, name, unique_id)
+    light = Light(api, name, unique_id)
     api.add_update_callback(light._update_handler)
 
-    async_add_entities([light])
+    light_fx1 = LightFx1(api, name, unique_id)
+    api.add_update_callback(light_fx1._update_handler)
+
+    light_fx2 = LightFx2(api, name, unique_id)
+    api.add_update_callback(light_fx2._update_handler)
+
+    async_add_entities([light, light_fx1, light_fx2])
 
 
-class ClockLight(LightEntity):
+class Light(LightEntity):
     _attr_has_entity_name = True
 
     _attr_should_poll = False
@@ -94,3 +100,57 @@ class ClockLight(LightEntity):
 
     async def async_turn_off(self, **kwargs):
         await self._api.async_update("light", {"state": False})
+
+
+class LightFx1(Light):
+    _attr_supported_features = 0
+
+    def __init__(self, api, name, unique_id):
+        super().__init__(api, name, unique_id)
+
+        self._attr_name = "Light Fx1"
+        self._attr_unique_id = "{}-light-fx1".format(unique_id)
+
+    def _update_attributes(self):
+        if self._api.state is not None:
+            self._attr_brightness = self._api.state.light.brightness
+            self._attr_rgb_color = [
+                self._api.state.light.effect_color_1.red,
+                self._api.state.light.effect_color_1.green,
+                self._api.state.light.effect_color_1.blue,
+            ]
+
+    async def async_turn_on(self, **kwargs):
+        params = {"state": True}
+        if "brightness" in kwargs:
+            params["brightness"] = kwargs["brightness"]
+        if "rgb_color" in kwargs:
+            params["effect_color_1"] = kwargs["rgb_color"]
+
+        await self._api.async_update("light", params)
+
+
+class LightFx2(LightFx1):
+    def __init__(self, api, name, unique_id):
+        super().__init__(api, name, unique_id)
+
+        self._attr_name = "Light Fx2"
+        self._attr_unique_id = "{}-light-fx2".format(unique_id)
+
+    def _update_attributes(self):
+        if self._api.state is not None:
+            self._attr_brightness = self._api.state.light.brightness
+            self._attr_rgb_color = [
+                self._api.state.light.effect_color_2.red,
+                self._api.state.light.effect_color_2.green,
+                self._api.state.light.effect_color_2.blue,
+            ]
+
+    async def async_turn_on(self, **kwargs):
+        params = {"state": True}
+        if "brightness" in kwargs:
+            params["brightness"] = kwargs["brightness"]
+        if "rgb_color" in kwargs:
+            params["effect_color_2"] = kwargs["rgb_color"]
+
+        await self._api.async_update("light", params)
