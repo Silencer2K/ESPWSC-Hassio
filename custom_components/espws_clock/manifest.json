@@ -1,7 +1,7 @@
 {
   "domain": "espws_clock",
   "name": "ESPWSClock",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "documentation": "https://github.com/Silencer2K/ESPWSC-Hassio",
   "issue_tracker": "https://github.com/Silencer2K/ESPWSC-Hassio/issues",
   "dependencies": ["http"],
