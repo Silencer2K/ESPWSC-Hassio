@@ -10,6 +10,15 @@ class JsonError(Exception):
     pass
 
 
+class Effect(Enum):
+    NONE = "None"
+    TWO_COLORS = "Two colors"
+
+
+EFFECT_FX1_AVAILABLE = [Effect.TWO_COLORS]
+EFFECT_FX2_AVAILABLE = [Effect.TWO_COLORS]
+
+
 @attr.s()
 class RGB:
     red = attr.ib(default=0)
@@ -26,11 +35,6 @@ class RGB:
         assert isinstance(data[2], int)
 
         self.red, self.green, self.blue = data
-
-
-class Effect(Enum):
-    NONE = "None"
-    TWO_COLORS = "Two colors"
 
 
 @attr.s()
